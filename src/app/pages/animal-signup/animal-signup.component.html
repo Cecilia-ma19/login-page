@@ -1,6 +1,6 @@
 <nav class="navbar">
   <div class="navbar-logo">
-    <a routerLink="/home"><img src="/assets/svg/Logo-preta.svg" alt=""></a>
+    <a routerLink="/home"><img src="/assets/svg/Logo-preta.svg" alt="Logo"></a>
   </div>
   <ul class="navbar-links">
     <li><a routerLink="/home">Home</a></li>
@@ -17,45 +17,50 @@
 </div>
 
 <div class="container">
-  <form [formGroup]="animalForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data" class="form-animal">
+  <!-- Formulário de cadastro de animal -->
+  <form (ngSubmit)="onSubmit()" enctype="application/json" class="form-animal">
 
+    <!-- Nome -->
     <div class="form-row">
       <div class="form-group">
         <label for="nome">Nome:</label>
-        <input type="text" id="nome" formControlName="nome">
+        <input type="text" id="nome" [(ngModel)]="animal.nome" name="nome" required>
       </div>
     </div>
 
     <div class="linha"></div>
 
+    <!-- Espécie -->
     <div class="form-row">
       <div class="form-group">
         <label for="especie">Espécie:</label>
-        <select id="especie" formControlName="especie">
-      <option value="">Selecione</option>
-      <option value="CACHORRO">Cachorro</option>
-      <option value="GATO">Gato</option>
-      <option value="PASSARO">Pássaro</option>
-      <option value="COELHO">Coelho</option>
-      <option value="EQUINOS">Equinos</option>
-    </select>
-  </div>
+        <select id="especie" [(ngModel)]="animal.especie" name="especie" (change)="onSpeciesChange()" required>
+          <option value="">Selecione</option>
+          <option value="CACHORRO">Cachorro</option>
+          <option value="GATO">Gato</option>
+          <option value="PASSARO">Pássaro</option>
+          <option value="COELHO">Coelho</option>
+          <option value="EQUINOS">Equinos</option>
+        </select>
+      </div>
 
-  <div class="form-group" *ngIf="showRacas">
-    <label for="raca">Raça:</label>
-    <select id="raca" formControlName="raca">
-      <option value="">Selecione</option>
-      <option value="LABRADOR">Labrador</option>
-      <option value="PASTOR_ALEMAO">Pastor Alemão</option>
-      <option value="POODLE">Poodle</option>
-      <option value="BULLDOG">Bulldog</option>
-      <option value="OUTRA">Outra</option>
-    </select>
-  </div>
+      <!-- Raça (só aparece se a espécie for Cachorro) -->
+      <div class="form-group" *ngIf="showRacas">
+        <label for="raca">Raça:</label>
+        <select id="raca" [(ngModel)]="animal.raca" name="raca">
+          <option value="">Selecione</option>
+          <option value="LABRADOR">Labrador</option>
+          <option value="PASTOR_ALEMAO">Pastor Alemão</option>
+          <option value="POODLE">Poodle</option>
+          <option value="BULLDOG">Bulldog</option>
+          <option value="OUTRA">Outra</option>
+        </select>
+      </div>
 
+      <!-- Sexo -->
       <div class="form-group">
         <label for="sexo">Sexo:</label>
-        <select id="sexo" formControlName="sexo">
+        <select id="sexo" [(ngModel)]="animal.sexo" name="sexo" required>
           <option value="">Selecione</option>
           <option value="Macho">Macho</option>
           <option value="FEMEA">Fêmea</option>
@@ -65,10 +70,11 @@
 
     <div class="linha"></div>
 
+    <!-- Tamanho, Cor e Idade -->
     <div class="form-row">
       <div class="form-group">
         <label for="tamanho">Tamanho:</label>
-        <select id="tamanho" formControlName="tamanho">
+        <select id="tamanho" [(ngModel)]="animal.tamanho" name="tamanho" required>
           <option value="">Selecione</option>
           <option value="PEQUENO">Pequeno</option> 
           <option value="MEDIO">Médio</option>    
@@ -78,31 +84,26 @@
 
       <div class="form-group">
         <label for="cor">Cor:</label>
-        <input type="text" id="cor" formControlName="cor">
+        <input type="text" id="cor" [(ngModel)]="animal.cor" name="cor" required>
       </div>
 
       <div class="form-group">
         <label for="idade">Idade:</label>
-        <input type="number" id="idade" min="0" formControlName="idade">
+        <input type="number" id="idade" min="0" [(ngModel)]="animal.idade" name="idade" required>
       </div>
     </div>
 
     <div class="linha"></div>
 
+    <!-- Descrição -->
     <div class="form-row">
       <div class="form-group full-width">
         <label for="descricao">Descrição:</label>
-        <textarea id="descricao" rows="4" formControlName="descricao"></textarea>
+        <textarea id="descricao" rows="4" [(ngModel)]="animal.descricao" name="descricao" required></textarea>
       </div>
     </div>
 
-    <div class="form-row">
-      <div class="form-group full-width">
-        <label for="imagem">Imagem:</label>
-        <input type="file" id="imagem" (change)="onFileChange($event)">
-      </div>
-    </div>
-
-    <button type="submit">Cadastrar Animal</button>
+    <!-- Botão de submit -->
+    <button type="submit" [disabled]="!animal.nome || !animal.especie || !animal.sexo || !animal.tamanho || !animal.cor || !animal.idade || !animal.descricao">Cadastrar Animal</button>
   </form>
 </div>

@@ -22,7 +22,7 @@ export class AnimalService {
     return this.http.get<any[]>(this.baseUrl, { headers });
   }
 
-  cadastrarAnimal(formData: FormData): Observable<any> {
+  cadastrarAnimal(animalData: any): Observable<any> {
     const token = sessionStorage.getItem('auth-token');
 
     if (!token) {
@@ -31,6 +31,6 @@ export class AnimalService {
     }
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.post(this.baseUrl, formData, { headers });
+    return this.http.post(this.baseUrl, animalData, { headers });
   }
 }
